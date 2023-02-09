@@ -1,0 +1,189 @@
+.js-plotly-plot .plotly .modebar {
+  padding-top: 5%;
+  margin-right: 3.5%;
+}
+
+body {
+  background-color: #f2f2f2;
+  margin: 5%;
+}
+
+.two.columns {
+  width: 16.25%;
+}
+
+.column,
+.columns {
+  margin-left: 0.5%;
+}
+
+.datecontainer {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+}
+.pretty_container {
+  border-radius: 5px;
+  background-color: #175A7F;
+  margin: 10px;
+  padding: 15px;
+  position: relative;
+  box-shadow: 2px 2px 2px #0f4664;
+}
+
+.study-browser-banner {
+  background: rgb(2,21,70);
+  color: white;
+  padding: 12px;
+  padding-left: 48px;
+}
+
+.bare_container {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+.dcc_control {
+  margin: 0;
+  padding: 5px;
+  width: calc(100%-40px);
+}
+
+.control_label {
+  margin: 0;
+  padding: 10px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-40px);
+}
+
+.rc-slider {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+.rc-slider-mark-text {
+    color:#9999;
+}
+
+.rc-slider-mark-text-active{
+    color:#B2B2B2;
+}
+.rc-slider-dot-active{
+    border-color:#B2B2B2;
+}
+.rc-slider-track{
+    background-color:#207FB3;
+}
+.rc-slider-handle{
+    border: solid 2px #21252C;
+}
+.rc-slider-handle:active{
+    border: solid 2px #207FB3;
+}
+.rc-slider-handle:hover {
+        border: solid 2px #207FB3;
+    }
+.rc-slider-handle:active {
+        border-color:#207FB3;
+    }
+.flex-display {
+    display: flex;
+}
+
+.container-display {
+  display: flex;
+}
+
+#individual_graph,
+#aggregate_graph {
+  width: calc(100% - 30px);
+  position: absolute;
+}
+
+#count_graph 
+  position: absolute;
+  height: calc(100% - 30px);
+  width: calc(100% - 30px);
+}
+
+#countGraphContainer {
+  flex: 5;
+  position: relative;
+}
+
+#header {
+  align-items: center;
+  background-color:#1A1C23;
+}
+
+#learn-more-button {
+  text-align: center;
+  height: 100%;
+  padding: 0 20px;
+  text-transform: none;
+  font-size: 15px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 30px;
+}
+#title {
+  text-align: center;
+}
+
+.mini_container {
+  border-radius: 5px;
+  background-color: #175A7F;
+  margin: 10px;
+  padding: 15px;
+  position: relative;
+  box-shadow: 2px 2px 2px #0f4664;
+}
+
+#right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+#waiting {
+  flex: 1;
+}
+
+#emissionsMapContainer {
+    flex:2;
+}
+
+#emissionsGraphContainer {
+    flex: 1;
+}
+
+#ops {
+    flex: 1;
+}
+
+#aggregate_data {
+  align-items: center;
+}
+
+#port {
+  flex: 1;
+}
+
+#draught {
+  flex: 1;
+}
+
+#tripleContainer {
+  display: flex;
+  flex: 3;
+}
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #1A1C23;
+}
+
+#pie_graph > div > div > svg:nth-child(3) > g.infolayer > g.legend {
+  pointer-events: all;
+  transform: translate(30px, 349px);
+}
