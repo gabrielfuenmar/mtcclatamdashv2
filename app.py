@@ -30,8 +30,8 @@ import boto3
 import h3
 from collections import defaultdict
 
-AWS_KEY="AKIAWL5CUOL44O322KPU"
-AWS_SECRET="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"
+AWS_KEY=os.environ.get('AWS_KEY', None)
+AWS_SECRET=os.environ.get('AWS_SECRET', None)
 
 session = boto3.Session( aws_access_key_id=AWS_KEY,
                          aws_secret_access_key=AWS_SECRET)
@@ -133,8 +133,7 @@ app.title = 'Panama Maritime Statistics'
 server = app.server
 
 # Create global chart template
-MAPBOX_TOKEN = "pk.eyJ1IjoiZ2FicmllbGZ1ZW5tYXIiLCJhIjoiY2s4ZXUxNGVpMDBmMjNkbWwxYXNjNjY0aCJ9.7nklUvXd2r0H7LYeY0EEAA"
-# MAPBOX_TOKEN = os.environ.get('MAPBOX_TOKEN', None)
+MAPBOX_TOKEN = os.environ.get('MAPBOX_TOKEN', None)
 
 layout_map = dict(
     autosize=True,
