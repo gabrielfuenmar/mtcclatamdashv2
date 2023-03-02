@@ -51,12 +51,9 @@ for file in bucket_list:
           
         last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
         
-        ###20 months before or first position
-        fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=20)).replace(day=1)
-        
-        if fr_update<datetime.fromisoformat("2022-12-01"):
-            fr_update=datetime.fromisoformat("2022-12-01")
-            
+        ###1 month before or first position
+        fr_update=(datetime.now()-relativedelta(months=1)).replace(day=1)
+                  
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
         em=em.assign(date_time=np.where(em.year_month.str[4:]==str(datetime.today().month),
