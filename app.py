@@ -52,7 +52,7 @@ for file in bucket_list:
         last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
         
         ###1 month before or first position
-        fr_update=(datetime.now()-relativedelta(months=1)).replace(day=1)
+        fr_update=(datetime.now()-relativedelta(days=5)).replace(day=1)
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
