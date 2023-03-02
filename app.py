@@ -657,11 +657,11 @@ def update_row1(ports_val,types_val,date,size_val):
     
     if date[0]==0:
         date_fr=fr_update   
+   
+    waiting,ops,service=upper_text_p1(fr=date_fr,to=date_to,ports_sel=ports_val,type_vessel=types_val,size=size_val)
     
     date_fr=date_fr.strftime('%d-%m-%Y')
     date_to=date_to.strftime('%d-%m-%Y')
-    
-    waiting,ops,service=upper_text_p1(fr=date_fr,to=date_to,ports_sel=ports_val,type_vessel=types_val,size=size_val)
     
     return "{:.1f}".format(waiting)+ " hours", format(ops,","), "{:.1f}".format(service) + " hours",\
         date_fr, date_to ,format(size_val[0],","),format(size_val[1],",")
