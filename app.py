@@ -16,6 +16,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 from dateutil.relativedelta import *
 from datetime import datetime
+import calendar
 
 from controls import TYPE_COLORS,PORTS_COLORS,FLEET,pc_res_8, pc_res_5
 from choropleth_map_emission import choropleth_map, sum_by_hexagon
@@ -59,9 +60,8 @@ for file in bucket_list:
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
-        em=em.assign(date_time=np.where(em.year_month.str[4:]==str(datetime.today().month),
-                                        em["year_month"].apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(to_update.day), "%Y-%m-%d")),
-                                        em["year_month"].apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-28", "%Y-%m-%d"))))
+        em=em.assign(date_time=em["year_month"]\
+                     .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")))
         
         ###Slders info
         fr_slider=fr_update.strftime("%d %b %Y")
