@@ -191,7 +191,7 @@ app.layout = html.Div(
                 html.Div(
                     [
                         html.A(html.Img(
-                            src=app.get_asset_url("mtcc_logo_v4.png"),
+                            src=app.get_asset_url("mtcc_logo_v5.png"),
                             id="plotly-image",
                             style={
                                 "height": "160px",
