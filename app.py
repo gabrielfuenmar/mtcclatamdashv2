@@ -53,7 +53,7 @@ for file in bucket_list:
         last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
         
         ###20 months before or first position
-        fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
+        fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=20)
 
         if fr_update<datetime.fromisoformat("2022-12-01"):
             fr_update=datetime.fromisoformat("2022-12-01")
@@ -839,7 +839,7 @@ def co2e_text(ghg_t,date,type_vessel):
 @app.callback([Output("ports-dropdown", "value"),
                 Output("types-dropdown","value"),
                 Output('year_slider', 'value'),
-                Output('size_slider', 'value'),
+                Output('size_slider', 'value'), 
                 Output('selector', 'value')
                 ],
               [Input('refresh-button', 'n_clicks')])     
