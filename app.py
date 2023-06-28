@@ -42,7 +42,7 @@ s3 = session.resource('s3')
 bucket_list=[]
 for file in  s3.Bucket("mtcclatam").objects.filter(Prefix='dash/'):
     file_name=file.key
-    if "_all" not in file_name.split("_")[-1]:
+    if "_all.csv" not in file_name.split("_")[-1]:
       bucket_list.append(file.key)
     
 for file in bucket_list:
