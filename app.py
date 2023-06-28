@@ -42,7 +42,7 @@ s3 = session.resource('s3')
 bucket_list=[]
 for file in  s3.Bucket("mtcclatam").objects.filter(Prefix='dash/'):
     file_name=file.key
-    if "_all.csv" not in file_name.split("_")[-1]:
+    if "_all" not in file.split("/")[-1].split("&")[-1].split(".")[0]:
       bucket_list.append(file.key)
     
 for file in bucket_list:
@@ -50,7 +50,6 @@ for file in bucket_list:
         em=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
         em=em.assign(year_month=em.year_month.apply(str))
         
-          
         last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
         
         ###months before or first position
