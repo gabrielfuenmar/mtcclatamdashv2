@@ -42,59 +42,59 @@ s3 = session.resource('s3')
 bucket_list=[]
 for file in  s3.Bucket("mtcclatam").objects.filter(Prefix='dash/'):
     file_name=file.key
-    bucket_list.append(file.key)
+    if "_all" not in file_name.split("_")[-1]:
+      bucket_list.append(file.key)
     
 for file in bucket_list:
-  if "_all" not in file:
-      if "emissions" in file.split("/")[1]:
-          em=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
-          em=em.assign(year_month=em.year_month.apply(str))
+    if "emissions" in file.split("/")[1]:
+        em=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
+        em=em.assign(year_month=em.year_month.apply(str))
+        
           
-            
-          last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
-          
-          ###months before or first position
-          fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
-  
-          if fr_update<datetime.fromisoformat("2022-12-01"):
-              fr_update=datetime.fromisoformat("2022-12-01")
-                    
-          to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
-          
-          em=em.assign(date_time=em["year_month"]\
-                       .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")))
-          
-          ###Slders info
-          fr_slider=fr_update.strftime("%d %b %Y")
-          to_slider=to_update.strftime("%d %b %Y")
-          
-          range_months=pd.period_range(fr_update,to_update,freq="M").strftime("%b %Y").tolist()
-          
-          slider_dic={}
-          if len(range_months)<5:
-              for x in range(0,len(range_months),1):
-                  if x <=len(range_months):
-                      slider_dic[x]=range_months[x]
-              slider_dic[list(slider_dic.keys())[-1]+1]=""
-              steps=1
-          else:
-              for x in range(0,len(range_months),5):
-                  if x <=len(range_months):
-                      slider_dic[x]=range_months[x]
-              slider_dic[list(slider_dic.keys())[-1]+1]=""
-              steps=5
-          
-          ### Emissions this month all co2e
-          this_month="{}{}".format(datetime.today().year,datetime.today().month)
-          em=em.assign(ch4_t=em.ch4_t*27,
-                       n2o_t=em.n2o_t*273)
-          
-          co2e=int(em[em.year_month==this_month][["co2_t","ch4_t","n2o_t"]].sum().sum())
-          
-      elif "stops_all" in file.split("/")[1]:
-          ports=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
-      elif "transits" in file.split("/")[1]:
-          canal=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
+        last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
+        
+        ###months before or first position
+        fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
+
+        if fr_update<datetime.fromisoformat("2022-12-01"):
+            fr_update=datetime.fromisoformat("2022-12-01")
+                  
+        to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
+        
+        em=em.assign(date_time=em["year_month"]\
+                     .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")))
+        
+        ###Slders info
+        fr_slider=fr_update.strftime("%d %b %Y")
+        to_slider=to_update.strftime("%d %b %Y")
+        
+        range_months=pd.period_range(fr_update,to_update,freq="M").strftime("%b %Y").tolist()
+        
+        slider_dic={}
+        if len(range_months)<5:
+            for x in range(0,len(range_months),1):
+                if x <=len(range_months):
+                    slider_dic[x]=range_months[x]
+            slider_dic[list(slider_dic.keys())[-1]+1]=""
+            steps=1
+        else:
+            for x in range(0,len(range_months),5):
+                if x <=len(range_months):
+                    slider_dic[x]=range_months[x]
+            slider_dic[list(slider_dic.keys())[-1]+1]=""
+            steps=5
+        
+        ### Emissions this month all co2e
+        this_month="{}{}".format(datetime.today().year,datetime.today().month)
+        em=em.assign(ch4_t=em.ch4_t*27,
+                     n2o_t=em.n2o_t*273)
+        
+        co2e=int(em[em.year_month==this_month][["co2_t","ch4_t","n2o_t"]].sum().sum())
+        
+    elif "stops_all" in file.split("/")[1]:
+        ports=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
+    elif "transits" in file.split("/")[1]:
+        canal=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
     
 ports,canal=processed_data(FLEET,ports,canal)
 
