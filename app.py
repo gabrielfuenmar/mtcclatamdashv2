@@ -41,8 +41,9 @@ s3 = session.resource('s3')
 
 bucket_list=[]
 for file in  s3.Bucket("mtcclatam").objects.filter(Prefix='dash/'):
-    file_name=file.key
-    bucket_list.append(file.key)
+  if "_all" not in file:
+      file_name=file.key
+      bucket_list.append(file.key)
     
 for file in bucket_list:
     if "emissions" in file.split("/")[1]:
