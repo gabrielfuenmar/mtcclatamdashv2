@@ -55,8 +55,8 @@ for file in bucket_list:
         ###months before or first position
         fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
 
-        if fr_update<datetime.fromisoformat("2022-12-01"):
-            fr_update=datetime.fromisoformat("2022-12-01")
+        if fr_update<datetime.fromisoformat("2023-12-01"):
+            fr_update=datetime.fromisoformat("2023-12-01")
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
