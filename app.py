@@ -55,19 +55,27 @@ for file in bucket_list:
         ###months before or first position
         fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
 
-        if fr_update<datetime.fromisoformat("2023-12-01"):
-            fr_update=datetime.fromisoformat("2023-12-01")
+        if fr_update<datetime.fromisoformat("2024-01-01"):
+            fr_update=datetime.fromisoformat("2024-01-01")
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
         em=em.assign(date_time=em["year_month"]\
-                     .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")))
+                     .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")),
+                     month=em.year_month.apply(lambda x: int(x[4:])),
+                     year=em.year_month.apply(lambda x: int(x[:4])))
         
+        em=em.assign(date_time=np.where(((em["month"]==to_update.month)
+                                         &(em["year"]==to_update.year)),
+                                        datetime.fromisoformat("{}-{}-{}".format(to_update.year, str(to_update.month).zfill(2), str(to_update.day).zfill(2))),
+                                        em.date_time))
+        em["date_time"]=pd.to_datetime(em.date_time)
         ###Slders info
         fr_slider=fr_update.strftime("%d %b %Y")
         to_slider=to_update.strftime("%d %b %Y")
         
         range_months=pd.period_range(fr_update,to_update,freq="M").strftime("%b %Y").tolist()
+        
         
         slider_dic={}
         if len(range_months)<5:
