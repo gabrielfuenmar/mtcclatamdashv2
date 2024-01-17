@@ -839,8 +839,7 @@ def co2e_text(ghg_t,date,type_vessel):
         em_in=int(em_in[((em_in.date_time.between(date_fr,date_to))&\
                         (em_in.StandardVesselType.isin(type_vessel)))][[ghg_t]].sum().sum()) 
        
-    # result=f"{em_in:,}"
-    result="{}-{}".format(date_fr,date_to)
+    result=f"{em_in:,}"
     return result
 
 ##Refresh button
