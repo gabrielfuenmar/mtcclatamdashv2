@@ -77,7 +77,7 @@ for file in bucket_list:
                 em.date_time
             )
         )
-        em["date_time"]=pd.to_datetime(em.date_time)
+        em["date_time"]=pd.to_datetime(em.date_time,errors="coerce")
         ###Slders info
         fr_slider=fr_update.strftime("%d %b %Y")
         to_slider=to_update.strftime("%d %b %Y")
