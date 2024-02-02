@@ -60,15 +60,23 @@ for file in bucket_list:
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
-        em=em.assign(date_time=em["year_month"]\
-                     .apply(lambda x: datetime.strptime(x[0:4]+"-"+x[4:]+"-"+str(calendar.monthrange(int(x[:4]),int(x[4:]))[1]), "%Y-%m-%d")),
-                     month=em.year_month.apply(lambda x: int(x[4:])),
-                     year=em.year_month.apply(lambda x: int(x[:4])))
+        em['year_month_str'] = em['year_month'].astype(str)
         
-        em=em.assign(date_time=np.where(((em["month"]==to_update.month)
-                                         &(em["year"]==to_update.year)),
-                                        datetime.fromisoformat("{}-{}-{}".format(to_update.year, str(to_update.month).zfill(2), str(to_update.day).zfill(2))),
-                                        em.date_time))
+        # Adjust the lambda to handle YYYYM format correctly by appending a '0' prefix to months if necessary
+        em = em.assign(
+            date_time=em['year_month_str'].apply(lambda x: datetime.strptime(x[0:4] + "-" + x[4:].rjust(2, '0') + "-" + str(calendar.monthrange(int(x[:4]), int(x[4:].rjust(2, '0')))[1]), "%Y-%m-%d")),
+            month=em.year_month_str.apply(lambda x: int(x[4:].rjust(2, '0'))),
+            year=em.year_month_str.apply(lambda x: int(x[:4]))
+        )
+        
+        # Using np.where to conditionally update date_time
+        em = em.assign(
+            date_time=np.where(
+                (em["month"] == to_update.month) & (em["year"] == to_update.year),
+                datetime.fromisoformat("{}-{}-{}".format(to_update.year, str(to_update.month).zfill(2), str(to_update.day).zfill(2))),
+                em.date_time
+            )
+        )
         em["date_time"]=pd.to_datetime(em.date_time)
         ###Slders info
         fr_slider=fr_update.strftime("%d %b %Y")
