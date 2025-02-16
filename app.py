@@ -53,10 +53,7 @@ for file in bucket_list:
         last_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0]).strftime("%d %b %Y")
         
         ###months before or first position
-        fr_update=(datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])-relativedelta(months=1)).replace(day=1)
-
-        if fr_update<datetime.fromisoformat("2024-01-01"):
-            fr_update=datetime.fromisoformat("2024-01-01")
+        fr_update=datetime.fromisoformat("2023-06-01")
                   
         to_update=datetime.fromisoformat(file.split("/")[-1].split("&")[-1].split(".")[0])
         
@@ -92,14 +89,12 @@ for file in bucket_list:
                     slider_dic[x]=range_months[x]
             slider_dic[list(slider_dic.keys())[-1]+1]=""
             steps=1
-            print("less")
         else:
             for x in range(0,len(range_months),5):
                 if x <=len(range_months):
                     slider_dic[x]=range_months[x]
             slider_dic[list(slider_dic.keys())[-1]+1]=""
             steps=5
-            print("more")
         ### Emissions this month all co2e
         this_month="{}{}".format(datetime.today().year,datetime.today().month)
         em=em.assign(ch4_t=em.ch4_t*27,
