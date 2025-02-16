@@ -46,7 +46,7 @@ for file in  s3.Bucket("mtcclatam").objects.filter(Prefix='dash/'):
       bucket_list.append(file.key)
     
 for file in bucket_list:
-  print(bucket_list)
+    print(bucket_list)
     if "emissions" in file.split("/")[1]:
         em=pd.read_csv(s3.Object("mtcclatam", file).get()['Body'])
         em=em.assign(year_month=em.year_month.apply(str))
